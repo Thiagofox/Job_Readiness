@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">JobReadiness</string>
+    <string name="button_search">Pesquisar</string>
+    <string name="search_product_hint">Pesquisar Produto</string>
+</resources>
