@@ -12,4 +12,13 @@ class Products {
 class ListProduct {
     @SerializedName("id")
     var id: String = ""
+
+    @SerializedName("title")
+    var title: String = ""
+
+    @SerializedName("category_id")
+    var categoryId: String = ""
+
+    
+
 }

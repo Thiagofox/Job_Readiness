@@ -28,7 +28,7 @@ class TopProducts : AppCompatActivity() {
         val product = getProductName()
         getCategoryPredictorResponse("games")
         getTopCategoryResponse("MLB9190")
-        getProductsResponse("MLB1948115316")
+       // getProductsResponse("MLB1948115316")
 
     }
 
@@ -39,12 +39,7 @@ class TopProducts : AppCompatActivity() {
         call.enqueue(object: Callback<List<CategoryPredictor>>{
             override fun onResponse (call: Call<List<CategoryPredictor>>, response: Response<List<CategoryPredictor>>) {
                 val categories = response.body()
-                if (categories == null) {
-                   // To Do
-                }else {
-                    val response = categories[0].categoryid
-                    Log.d("Thiago", "test category $response")
-                }
+                    Log.d("Thiago", "test category $categories")
             }
             override fun onFailure(call: Call<List<CategoryPredictor>>, t: Throwable) {
                 val s = ""
@@ -58,8 +53,16 @@ class TopProducts : AppCompatActivity() {
 
         call.enqueue(object: Callback<TopCategory>{
             override fun onResponse(call: Call<TopCategory>, response: Response<TopCategory>) {
-                val topProducts = response.body()?.content?.get(0)?.id
-                Log.d("thiago", "test $topProducts")
+                val topProducts = response.body()
+                if(topProducts != null){
+                    val itens = topProducts.content.filter { it.type == "ITEM" }.map { it.id }
+                    Log.d("thiago", "test $itens")
+                }
+                else {
+                    val s = ""
+                }
+
+
             }
 
             override fun onFailure(call: Call<TopCategory>, t: Throwable) {
@@ -76,6 +79,10 @@ class TopProducts : AppCompatActivity() {
         call.enqueue(object : Callback<List<Products>>{
             override fun onResponse(call: Call<List<Products>>, response: Response<List<Products>>) {
                 val product = response.body()
+                if(product != null){
+                    Log.d("thiago", "test $product")
+                }
+
             }
 
             override fun onFailure(call: Call<List<Products>>, t: Throwable) {
@@ -87,6 +94,5 @@ class TopProducts : AppCompatActivity() {
     private fun getProductName(): String {
         return SecurityPreferences(this).getString(JobReadinessConstants.KEY.PRODUCT_SEARCHED)
     }
-
 
 }
