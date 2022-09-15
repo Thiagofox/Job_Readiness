@@ -15,20 +15,3 @@ class CategoryPredictor {
 
 
 }
-
-
-
-
-
-// https://api.mercadolibre.com/sites/MLB/domain_discovery/search?limit=1&q=games
-/*
-[
-    {
-        "domain_id": "MLB-GAME_CONSOLES_VIDEO_GAMES_AND_ARCADE_MACHINES",
-        "domain_name": "Consoles de videogames, videogames e máquinas de fliperama",
-        "category_id": "MLB11207",
-        "category_name": "Outros",
-        "attributes": []
-    }
-]
-*/

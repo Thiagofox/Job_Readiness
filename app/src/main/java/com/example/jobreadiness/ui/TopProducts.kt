@@ -26,21 +26,25 @@ class TopProducts : AppCompatActivity() {
         supportActionBar?.hide()
 
         val product = getProductName()
-        getCategoryPredictorResponse("games")
+        getCategoryPredictorResponse("carro")
         getTopCategoryResponse("MLB9190")
-       // getProductsResponse("MLB1948115316")
-
+        getProductsResponse("MLB1948115316")
     }
+
 
     private fun getCategoryPredictorResponse(product: String) {
         val categoryPredictorService = RetrofitClient.createService()
         val call: Call<List<CategoryPredictor>> = categoryPredictorService.listCategories(product)
 
-        call.enqueue(object: Callback<List<CategoryPredictor>>{
-            override fun onResponse (call: Call<List<CategoryPredictor>>, response: Response<List<CategoryPredictor>>) {
+        call.enqueue(object : Callback<List<CategoryPredictor>> {
+            override fun onResponse(
+                call: Call<List<CategoryPredictor>>,
+                response: Response<List<CategoryPredictor>>
+            ) {
                 val categories = response.body()
-                    Log.d("Thiago", "test category $categories")
+                Log.d("Thiago", "test category $categories")
             }
+
             override fun onFailure(call: Call<List<CategoryPredictor>>, t: Throwable) {
                 val s = ""
             }
@@ -51,18 +55,15 @@ class TopProducts : AppCompatActivity() {
         val topCategoryService = RetrofitClient.createService()
         val call: Call<TopCategory> = topCategoryService.listTopProducts(categoryId)
 
-        call.enqueue(object: Callback<TopCategory>{
+        call.enqueue(object : Callback<TopCategory> {
             override fun onResponse(call: Call<TopCategory>, response: Response<TopCategory>) {
                 val topProducts = response.body()
-                if(topProducts != null){
+                if (topProducts != null) {
                     val itens = topProducts.content.filter { it.type == "ITEM" }.map { it.id }
                     Log.d("thiago", "test $itens")
-                }
-                else {
+                } else {
                     val s = ""
                 }
-
-
             }
 
             override fun onFailure(call: Call<TopCategory>, t: Throwable) {
@@ -76,10 +77,13 @@ class TopProducts : AppCompatActivity() {
         val productService = RetrofitClient.createService()
         val call: Call<List<Products>> = productService.listItens(product)
 
-        call.enqueue(object : Callback<List<Products>>{
-            override fun onResponse(call: Call<List<Products>>, response: Response<List<Products>>) {
+        call.enqueue(object : Callback<List<Products>> {
+            override fun onResponse(
+                call: Call<List<Products>>,
+                response: Response<List<Products>>
+            ) {
                 val product = response.body()
-                if(product != null){
+                if (product != null) {
                     Log.d("thiago", "test $product")
                 }
 
@@ -94,5 +98,26 @@ class TopProducts : AppCompatActivity() {
     private fun getProductName(): String {
         return SecurityPreferences(this).getString(JobReadinessConstants.KEY.PRODUCT_SEARCHED)
     }
-
 }
+
+/*    private fun initRecyclerView() {
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        binding.recyclerView.setHasFixedSize(true)
+        binding.recyclerView.adapter = AdapterItem(getList())
+    }
+
+    private fun getList() = listOf(
+        "Education",
+        "Recreational",
+        "Social",
+        "Diy",
+        "Charity",
+        "Cooking",
+        "Relaxation",
+        "Music",
+        "Busywork",
+    )
+}*/
+
+
+
