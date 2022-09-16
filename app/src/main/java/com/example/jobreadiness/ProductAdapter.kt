@@ -6,9 +6,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.jobreadiness.product.Products
 import com.example.jobreadiness.ui.ItemModel
 
-class ProductAdapter(private val itemList: MutableList<ItemModel>, val itemSelected:(ItemModel) -> Unit) : RecyclerView.Adapter<ProductAdapter.MyViewHolder>() {
+class ProductAdapter(private val itemList: List<Products>, val itemSelected:(Products) -> Unit) : RecyclerView.Adapter<ProductAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView =  LayoutInflater.from(parent.context).inflate(R.layout.product_adapter, parent, false)
@@ -17,8 +18,8 @@ class ProductAdapter(private val itemList: MutableList<ItemModel>, val itemSelec
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = itemList[position]
-        holder.productName.text = item.name
-        holder.price.text = item.price.toString()
+        holder.productName.text = item.body.title
+        holder.price.text = item.body.price
 
         holder.itemView.setOnClickListener{ itemSelected(item)}
     }

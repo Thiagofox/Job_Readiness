@@ -16,10 +16,7 @@
         android:theme="@style/Theme.JobReadiness"
         tools:targetApi="31">
         <activity
-            android:name=".ProductDetails"
-            android:exported="false" />
-        <activity
-            android:name=".ProductsDetais"
+            android:name=".ui.ProductDetails"
             android:exported="false" />
         <activity
             android:name=".ui.TopProducts"

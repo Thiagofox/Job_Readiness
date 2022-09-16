@@ -29,13 +29,23 @@ class TopProducts : AppCompatActivity() {
         supportActionBar?.hide()
 
         val searchProduct = getSearchProduct()
-        val teste = getCategoryPredictorResponse("carro"){
+
+
+
+        getCategoryPredictorResponse(searchProduct){
             when (it) {
-                is ApiResult.Error -> it.error
-                is ApiResult.Success -> it.result
+                is ApiResult.Error -> onListError(it.error)
+                is ApiResult.Success -> onListLoaded(it.result)
             }
         }
-        initRecyclerView()
+    }
+
+    fun onListError(error: Throwable) {
+        // Toast
+    }
+
+    fun onListLoaded(list: List<Products>){
+        initRecyclerView(list)
     }
 
     private fun getCategoryPredictorResponse(searchProduct: String, onResult: (ApiResult<List<Products>>) -> Unit) {
@@ -81,9 +91,9 @@ class TopProducts : AppCompatActivity() {
         })
     }
 
-    private fun getProductsResponse(product: List<String>, onResult: (ApiResult<List<Products>>) -> Unit) {
+    private fun getProductsResponse(productsIds: List<String>, onResult: (ApiResult<List<Products>>) -> Unit) {
         val productService = RetrofitClient.createService()
-        // val product = product.joinToString(",")
+        val product = productsIds.joinToString(",")
         val call: Call<List<Products>> = productService.listItens(product)
 
         call.enqueue(object : Callback<List<Products>> {
@@ -105,10 +115,10 @@ class TopProducts : AppCompatActivity() {
     }
 
 
-    private fun initRecyclerView() {
+    private fun initRecyclerView(list: List<Products>) {
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.setHasFixedSize(true)
-        binding.recyclerView.adapter = ProductAdapter(ItemList.getItemList()) { item ->
+        binding.recyclerView.adapter = ProductAdapter(list) { item ->
             val intent = Intent(this, ProductDetails::class.java )
             startActivity(intent)
         }
