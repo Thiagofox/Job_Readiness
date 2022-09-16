@@ -1,8 +1,11 @@
 package com.example.jobreadiness.ui
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.jobreadiness.ProductAdapter
 import com.example.jobreadiness.predictorCategoryApi.CategoryPredictor
 import com.example.jobreadiness.api.RetrofitClient
 import com.example.jobreadiness.infra.JobReadinessConstants
@@ -25,15 +28,15 @@ class TopProducts : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
 
+        val searchProduct = getSearchProduct()
         val teste = getCategoryPredictorResponse("carro"){
             when (it) {
                 is ApiResult.Error -> it.error
                 is ApiResult.Success -> it.result
             }
         }
-
+        initRecyclerView()
     }
-
 
     private fun getCategoryPredictorResponse(searchProduct: String, onResult: (ApiResult<List<Products>>) -> Unit) {
         val categoryPredictorService = RetrofitClient.createService()
@@ -97,29 +100,25 @@ class TopProducts : AppCompatActivity() {
         })
     }
 
-    private fun getProductName(): String {
+    private fun getSearchProduct(): String {
         return SecurityPreferences(this).getString(JobReadinessConstants.KEY.PRODUCT_SEARCHED)
     }
-}
 
-/*    private fun initRecyclerView() {
+
+    private fun initRecyclerView() {
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.setHasFixedSize(true)
-        binding.recyclerView.adapter = AdapterItem(getList())
+        binding.recyclerView.adapter = ProductAdapter(ItemList.getItemList()) { item ->
+            val intent = Intent(this, ProductDetails::class.java )
+            startActivity(intent)
+        }
     }
 
-    private fun getList() = listOf(
-        "Education",
-        "Recreational",
-        "Social",
-        "Diy",
-        "Charity",
-        "Cooking",
-        "Relaxation",
-        "Music",
-        "Busywork",
-    )
-}*/
+}
+
+
+
+
 
 
 

@@ -21,7 +21,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         supportActionBar?.hide()
 
-
         binding.searchButton.setOnClickListener(this)
     }
 
@@ -36,9 +35,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         if(product != "") {
 
             val securityPreferences = SecurityPreferences(this)
-
             securityPreferences.storeString("PRODUCT_SEARCHED", product)
-
 
             val intent = Intent(this, TopProducts::class.java)
             startActivity(intent)

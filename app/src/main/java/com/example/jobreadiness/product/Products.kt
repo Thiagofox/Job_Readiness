@@ -22,6 +22,7 @@ class ListProduct {
     @SerializedName("price")
     val price: String = ""
 
+
     
 
 }
