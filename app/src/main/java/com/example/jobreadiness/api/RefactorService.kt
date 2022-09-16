@@ -9,7 +9,7 @@ import retrofit2.http.Headers
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-const val ACCESS_TOKEN: String = "APP_USR-2573149674415770-091513-073b4f343bdc46c8b20ad27ec9430eb5-118766594"
+const val ACCESS_TOKEN: String = "APP_USR-2573149674415770-091605-68563d058674e5574e3c135e9eda3986-118766594"
 
 interface RefactorService {
     @Headers("Authorization: Bearer $ACCESS_TOKEN")
@@ -22,7 +22,7 @@ interface RefactorService {
 
     @Headers("Authorization: Bearer $ACCESS_TOKEN")
     @GET("items")
-    fun listItens(@Query("ids") products: String): Call<List<Products>>
+    fun listItens(@Query("ids") products: List<String>): Call<List<Products>>
 
 }
 

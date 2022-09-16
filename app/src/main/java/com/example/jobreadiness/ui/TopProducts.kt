@@ -25,24 +25,30 @@ class TopProducts : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
 
-        val product = getProductName()
-        getCategoryPredictorResponse("carro")
-        getTopCategoryResponse("MLB9190")
-        getProductsResponse("MLB1948115316")
+        val teste = getCategoryPredictorResponse("carro"){
+            when (it) {
+                is ApiResult.Error -> it.error
+                is ApiResult.Success -> it.result
+            }
+        }
+
     }
 
 
-    private fun getCategoryPredictorResponse(product: String) {
+    private fun getCategoryPredictorResponse(searchProduct: String, onResult: (ApiResult<List<Products>>) -> Unit) {
         val categoryPredictorService = RetrofitClient.createService()
-        val call: Call<List<CategoryPredictor>> = categoryPredictorService.listCategories(product)
+        val call: Call<List<CategoryPredictor>> = categoryPredictorService.listCategories(searchProduct)
 
         call.enqueue(object : Callback<List<CategoryPredictor>> {
-            override fun onResponse(
-                call: Call<List<CategoryPredictor>>,
-                response: Response<List<CategoryPredictor>>
-            ) {
+            override fun onResponse(call: Call<List<CategoryPredictor>>, response: Response<List<CategoryPredictor>>) {
+
                 val categories = response.body()
-                Log.d("Thiago", "test category $categories")
+                if (categories!= null){
+                    getTopCategoryResponse(categories[0].categoryid, onResult)
+                    Log.d("Thiago", "test category $categories")
+                }else {
+                    TODO("Not yet implements")
+                }
             }
 
             override fun onFailure(call: Call<List<CategoryPredictor>>, t: Throwable) {
@@ -51,7 +57,7 @@ class TopProducts : AppCompatActivity() {
         })
     }
 
-    private fun getTopCategoryResponse(categoryId: String) {
+    private fun getTopCategoryResponse(categoryId: String, onResult: (ApiResult<List<Products>>) -> Unit) {
         val topCategoryService = RetrofitClient.createService()
         val call: Call<TopCategory> = topCategoryService.listTopProducts(categoryId)
 
@@ -60,37 +66,32 @@ class TopProducts : AppCompatActivity() {
                 val topProducts = response.body()
                 if (topProducts != null) {
                     val itens = topProducts.content.filter { it.type == "ITEM" }.map { it.id }
+                    getProductsResponse(itens, onResult)
                     Log.d("thiago", "test $itens")
                 } else {
-                    val s = ""
+                    TODO("Not yet implements")
                 }
             }
-
             override fun onFailure(call: Call<TopCategory>, t: Throwable) {
-                val s = ""
+                onResult(ApiResult.Error(t))
             }
-
         })
     }
 
-    private fun getProductsResponse(product: String) {
+    private fun getProductsResponse(product: List<String>, onResult: (ApiResult<List<Products>>) -> Unit) {
         val productService = RetrofitClient.createService()
+        // val product = product.joinToString(",")
         val call: Call<List<Products>> = productService.listItens(product)
 
         call.enqueue(object : Callback<List<Products>> {
-            override fun onResponse(
-                call: Call<List<Products>>,
-                response: Response<List<Products>>
-            ) {
-                val product = response.body()
-                if (product != null) {
-                    Log.d("thiago", "test $product")
+
+            override fun onResponse( call: Call<List<Products>>, response: Response<List<Products>>) {
+                val items: List<Products> = response.body() ?: emptyList()
+                onResult(ApiResult.Success(items))
                 }
 
-            }
-
             override fun onFailure(call: Call<List<Products>>, t: Throwable) {
-                val s = ""
+                onResult(ApiResult.Error(t))
             }
         })
     }

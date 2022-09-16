@@ -19,6 +19,9 @@ class ListProduct {
     @SerializedName("category_id")
     var categoryId: String = ""
 
+    @SerializedName("price")
+    val price: String = ""
+
     
 
 }
