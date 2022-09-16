@@ -45,7 +45,7 @@ class TopProducts : AppCompatActivity() {
                 val categories = response.body()
                 if (categories!= null){
                     getTopCategoryResponse(categories[0].categoryid, onResult)
-                    Log.d("Thiago", "test category $categories")
+                    Log.d("getCategoryPredictorResponse", "$categories")
                 }else {
                     TODO("Not yet implements")
                 }
@@ -65,9 +65,9 @@ class TopProducts : AppCompatActivity() {
             override fun onResponse(call: Call<TopCategory>, response: Response<TopCategory>) {
                 val topProducts = response.body()
                 if (topProducts != null) {
-                    val itens = topProducts.content.filter { it.type == "ITEM" }.map { it.id }
-                    getProductsResponse(itens, onResult)
-                    Log.d("thiago", "test $itens")
+                    val items = topProducts.content.filter { it.type == "ITEM" }.map { it.id }
+                    getProductsResponse(items, onResult)
+                    Log.d("getTopCategoryResponse", "$items")
                 } else {
                     TODO("Not yet implements")
                 }
@@ -88,6 +88,7 @@ class TopProducts : AppCompatActivity() {
             override fun onResponse( call: Call<List<Products>>, response: Response<List<Products>>) {
                 val items: List<Products> = response.body() ?: emptyList()
                 onResult(ApiResult.Success(items))
+                Log.d("GetProductsResponse", "test $items")
                 }
 
             override fun onFailure(call: Call<List<Products>>, t: Throwable) {
