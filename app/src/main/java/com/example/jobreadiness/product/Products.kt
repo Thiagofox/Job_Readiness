@@ -21,4 +21,7 @@ class ListProduct {
 
     @SerializedName("price")
     val price: String = ""
+
+    @SerializedName("secure_thumbnail")
+    val image: String = ""
 }

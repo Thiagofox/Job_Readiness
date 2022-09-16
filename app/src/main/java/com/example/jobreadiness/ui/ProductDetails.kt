@@ -16,7 +16,9 @@ class ProductDetails : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        val title = intent.getStringExtra("carro")
+        val title = intent.getStringExtra("titlle")
         binding.textProductName.text = title
+//        val image = intent.getStringExtra("image")
+//        binding.imageProduct.imageAlpha = image
     }
 }

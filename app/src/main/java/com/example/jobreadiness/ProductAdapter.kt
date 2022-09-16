@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.jobreadiness.product.Products
-import com.example.jobreadiness.ui.ItemModel
+import com.squareup.picasso.Picasso
 
 class ProductAdapter(private val itemList: List<Products>, val itemSelected:(Products) -> Unit) : RecyclerView.Adapter<ProductAdapter.MyViewHolder>() {
 
@@ -20,7 +20,7 @@ class ProductAdapter(private val itemList: List<Products>, val itemSelected:(Pro
         val item = itemList[position]
         holder.productName.text = item.body.title
         holder.price.text = item.body.price
-
+        Picasso.get().load(item.body.image).into(holder.image)
         holder.itemView.setOnClickListener{itemSelected(item)}
     }
 
