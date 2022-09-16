@@ -12,8 +12,8 @@
         android:layout_height="38dp"
         android:text="NOME PRODUTO"
         android:textSize="22dp"
-        tools:layout_editor_absoluteX="185dp"
-        tools:layout_editor_absoluteY="25dp" />
+        tools:layout_editor_absoluteX="184dp"
+        tools:layout_editor_absoluteY="16dp" />
 
     <TextView
         android:id="@+id/text_price"

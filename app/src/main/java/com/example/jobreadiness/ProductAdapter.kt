@@ -21,7 +21,7 @@ class ProductAdapter(private val itemList: List<Products>, val itemSelected:(Pro
         holder.productName.text = item.body.title
         holder.price.text = item.body.price
 
-        holder.itemView.setOnClickListener{ itemSelected(item)}
+        holder.itemView.setOnClickListener{itemSelected(item)}
     }
 
     override fun getItemCount() = itemList.size

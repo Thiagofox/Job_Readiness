@@ -120,6 +120,7 @@ class TopProducts : AppCompatActivity() {
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.adapter = ProductAdapter(list) { item ->
             val intent = Intent(this, ProductDetails::class.java )
+            intent.putExtra("carro", item.body.title)
             startActivity(intent)
         }
     }

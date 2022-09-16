@@ -15,5 +15,8 @@ class ProductDetails : AppCompatActivity() {
         setContentView(binding.root)
 
         supportActionBar?.hide()
+
+        val title = intent.getStringExtra("carro")
+        binding.textProductName.text = title
     }
 }
